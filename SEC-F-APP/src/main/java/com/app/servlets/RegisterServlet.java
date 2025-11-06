@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.app.database.DatabaseConnection;
 import com.app.helper.EmailUtil;
 
 /**
@@ -35,15 +36,23 @@ public class RegisterServlet extends HttpServlet {
 		String emailAdd = request.getParameter("email");
 		String password = request.getParameter("password");
 		
-		int OTP = (int)(Math.random() * 900000) + 100000;
-		boolean OTPSentStatus = EmailUtil.sendRegisterOTP(emailAdd, firstName + " " + lastName, OTP);
-		if(OTPSentStatus) {
-			HttpSession session = request.getSession();
-			session.setAttribute("sentOTP", OTP); 
-			response.sendRedirect("verify_otp_page.html");
+		boolean dataInsertStatus = DatabaseConnection.insertUserData(firstName, lastName, Integer.parseInt(mobileNum), emailAdd, password);
+		
+		if(dataInsertStatus) {
+			int OTP = (int)(Math.random() * 900000) + 100000;
+			boolean OTPSentStatus = EmailUtil.sendRegisterOTP(emailAdd, firstName + " " + lastName, OTP);
+			if(OTPSentStatus) {
+				HttpSession session = request.getSession();
+				session.setAttribute("sentOTP", OTP); 
+				response.sendRedirect("verify_otp_page.html");
+			}else {
+				System.out.println("OTP sent Failed");
+			}
 		}else {
-			System.out.println("OTP sent Failed");
+			System.out.println("user data not saved in db");
 		}
+		
+		
 	}
 
 	/**

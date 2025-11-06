@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.app.database.DatabaseConnection;
+
 /**
  * Servlet implementation class VerifyOTPServlet
  */
@@ -31,7 +33,7 @@ public class VerifyOTPServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		int sentOTP = (int)(session.getAttribute("sentOTP")); 
 		if(Integer.parseInt(enteredOTP)  == sentOTP) {
-			System.out.println("OTP Verification Success");
+			DatabaseConnection.verifyUser();
 		}else {
 			System.out.println("OTP Verification Failed");
 		}
