@@ -32,8 +32,9 @@ public class VerifyOTPServlet extends HttpServlet {
 		String enteredOTP = request.getParameter("enteredOTP");
 		HttpSession session = request.getSession();
 		int sentOTP = (int)(session.getAttribute("sentOTP")); 
+		String email = (String)(session.getAttribute("email")); 
 		if(Integer.parseInt(enteredOTP)  == sentOTP) {
-			DatabaseConnection.verifyUser();
+			DatabaseConnection.verifyUser(email);
 		}else {
 			System.out.println("OTP Verification Failed");
 		}

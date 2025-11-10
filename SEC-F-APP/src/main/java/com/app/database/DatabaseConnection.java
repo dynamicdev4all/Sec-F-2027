@@ -16,7 +16,7 @@ import shadow.org.bson.Document;
 
 public class DatabaseConnection {
 	
-	 static String connectionString = "mongodb+srv://piebytwo014:piebytwo014@cluster0.nktwqqb.mongodb.net/?appName=Cluster0";
+	 static String connectionString = "";
 
      static ServerApi serverApi = ServerApi.builder()
              .version(ServerApiVersion.V1)
@@ -31,10 +31,24 @@ public class DatabaseConnection {
 	 static MongoCollection<Document> c = database.getCollection("users");
 	
 	 
-	 public static void verifyUser() {
-		 // first step is to search for user
-		 //then update the arg from false to true
-		 //then reinsert the updated data in the db
+	 public static Document loginUser(String email) {
+		 Document userSearch = new Document("userEmail", email);
+		 Document user = c.find(userSearch).first();
+		 if(user != null) {
+			 return user;
+		 }
+		 return null;
+	 }
+	 
+	 public static void verifyUser(String email) {
+		 Document userSearch = new Document("userEmail", email);
+		 Document user = c.find(userSearch).first();
+		 if(user != null) {
+			 Document updatedUser = new Document("$set", new Document("isVerified", true));
+			 c.findOneAndUpdate(userSearch,updatedUser);
+		 }else {
+			 System.out.println("No USer Found");
+		 }
 	 }
 	
 	public static boolean insertUserData(String firstName, String lastName, int phone, String userEmail, String userPassword) {

@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.app.database.DatabaseConnection;
+
+import shadow.org.bson.Document;
+
 /**
  * Servlet implementation class LoginServlet
  */
@@ -31,19 +35,24 @@ public class LoginServlet extends HttpServlet {
 		String emailAdd = request.getParameter("email");
 		String password = request.getParameter("password");
 
-		System.out.println("Data rec from HTML page");
-		System.out.println("Your email add is :" +  emailAdd);
-		System.out.println("Your password is : "+password);
-		
-		if(emailAdd.equals("admin@rdec.in") && password.equals("123456")) {
-			HttpSession session = request.getSession();
-			session.setAttribute("name", "Deepak"); // data insert  or login
-			session.invalidate();
-//			response.sendRedirect("home_page.html");	
-			response.sendRedirect("home.jsp");	
+		Document loginUser =  DatabaseConnection.loginUser(emailAdd);
+		if(loginUser != null) {
+			if(emailAdd.equals(loginUser.getString("userEmail")) && password.equals(loginUser.getString("userPassword")) && loginUser.getBoolean("isVerified")) {
+				HttpSession session = request.getSession();
+				String name  = loginUser.getString("firstName") + " " + loginUser.getString("lastName");
+				session.setAttribute("name", name); // data insert  or login
+				response.sendRedirect("home.jsp");	
+			}else if(emailAdd.equals(loginUser.getString("userEmail")) && password.equals(loginUser.getString("userPassword")) && !loginUser.getBoolean("isVerified")) {
+				System.out.println("The account is not yet verified, please retry");
+			}
+			else {
+				System.out.println("Your password is incorrect");
+			}
 		}else {
-			System.out.println("Your email or password is incorrect");
+			System.out.println("User not registered, please try register first");
 		}
+		
+	
 	}
 
 	/**
