@@ -17,7 +17,7 @@ import jakarta.mail.internet.MimeMessage;
 
 public class EmailUtil {
 	
-	public static boolean sendRegisterOTP(String to, String userName, int OTP) {
+	public static boolean sendRegisterOTP(String to, String userName, String token) {
 		String senderEmail = "piebytwo014@gmail.com";
 		String senderPassword = AppSecretData.loadAppSecrets("SEND_MAIL_PASSWORD", "en", "US");;
 		
@@ -39,17 +39,26 @@ public class EmailUtil {
 		
 		Message emailMsg = new MimeMessage(emailSession);
 		
+		String verificationLink = "http://localhost:5050/SEC-F-APP/AccountVerify?token="+token;
 		try {
 			emailMsg.setFrom(new InternetAddress(senderEmail));
 			emailMsg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
 			emailMsg.setSubject("Thank You for the Registration. 🙏");
+//			emailMsg.setText("Hello, "+userName+". \n\n"
+//							+"Your account has been create successfully. \n\n"
+//							+"Please use One Time Password (OTP) : "+OTP+". \n\n"
+//							+"If you did not request this OTP, kindly ignore this mail. \n\n"
+//							+"Note: Please do not share this OTP with anyone. \n\n"
+//							+"Best Regards, \n"
+//							+"Team Sec-F.");
 			emailMsg.setText("Hello, "+userName+". \n\n"
-							+"Your account has been create successfully. \n\n"
-							+"Please use One Time Password (OTP) : "+OTP+". \n\n"
-							+"If you did not request this OTP, kindly ignore this mail. \n\n"
-							+"Note: Please do not share this OTP with anyone. \n\n"
-							+"Best Regards, \n"
-							+"Team Sec-F.");
+					+"Your account has been created successfully. \n\n"
+					+"Please use the below link to verify your account \n\n"
+					+"<a href="+verificationLink+">"+verificationLink+"</a> \n\n"
+					+"If you did not request this Link, kindly ignore this mail. \n\n"
+					+"Note: Please do not share this Link with anyone. \n\n"
+					+"Best Regards, \n"
+					+"Team Sec-F.");
 			Transport.send(emailMsg);
 			return true;
 		} catch (MessagingException e) {

@@ -44,6 +44,13 @@ public class DatabaseConnection {
 		 return null;
 	 }
 	 
+	 public static void insertToken(String token) {
+		 MongoCollection<Document> c = database.getCollection("token");
+		 c.insertOne(new Document("jwttoken", token)
+					.append("useCount", 0));
+		 
+	 }
+	 
 	 public static void verifyUser(String email) {
 		 Document userSearch = new Document("userEmail", email);
 		 Document user = c.find(userSearch).first();

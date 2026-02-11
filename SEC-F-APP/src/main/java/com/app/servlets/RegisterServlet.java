@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import com.app.config.AppSecretData;
 import com.app.database.DatabaseConnection;
 import com.app.helper.EmailUtil;
+import com.app.util.JWTUtil;
 
 /**
  * Servlet implementation class RegisterServlet
@@ -41,15 +42,17 @@ public class RegisterServlet extends HttpServlet {
 		
 		if(dataInsertStatus) {
 			int OTP = (int)(Math.random() * 900000) + 100000;
-			boolean OTPSentStatus = EmailUtil.sendRegisterOTP(emailAdd, firstName + " " + lastName, OTP);
+			String token = JWTUtil.createJWT(emailAdd, OTP, firstName + " " + lastName, "F", "1234");
+//			boolean OTPSentStatus = EmailUtil.sendRegisterOTP(emailAdd, firstName + " " + lastName, OTP);
+			boolean OTPSentStatus = EmailUtil.sendRegisterOTP(emailAdd, firstName + " " + lastName, token);
 			if(OTPSentStatus) {
 				HttpSession session = request.getSession();
 				session.setAttribute("sentOTP", OTP); 
 				session.setAttribute("email", emailAdd); 
 				response.sendRedirect("verify_otp_page.html");
 			}else {
-//				System.out.println("OTP sent Failed"); //this is the outdated varient
-				System.out.println(AppSecretData.appLogs("ERR", "OTP sent Failed"));
+				System.out.println("OTP sent Failed"); //this is the outdated varient
+//				System.out.println(AppSecretData.appLogs("ERR", "OTP sent Failed"));
 			}
 		}else {
 			System.out.println("user data not saved in db");
