@@ -49,7 +49,8 @@ public class RegisterServlet extends HttpServlet {
 				HttpSession session = request.getSession();
 				session.setAttribute("sentOTP", OTP); 
 				session.setAttribute("email", emailAdd); 
-				response.sendRedirect("verify_otp_page.html");
+//				response.sendRedirect("verify_otp_page.html"); // this is version 1
+				response.sendRedirect("email_sent.html");
 			}else {
 				System.out.println("OTP sent Failed"); //this is the outdated varient
 //				System.out.println(AppSecretData.appLogs("ERR", "OTP sent Failed"));

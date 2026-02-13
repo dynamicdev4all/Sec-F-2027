@@ -54,7 +54,7 @@ public class EmailUtil {
 			emailMsg.setText("Hello, "+userName+". \n\n"
 					+"Your account has been created successfully. \n\n"
 					+"Please use the below link to verify your account \n\n"
-					+"<a href="+verificationLink+">"+verificationLink+"</a> \n\n"
+					+"<a href=>"+verificationLink+"</a> \n\n"
 					+"If you did not request this Link, kindly ignore this mail. \n\n"
 					+"Note: Please do not share this Link with anyone. \n\n"
 					+"Best Regards, \n"

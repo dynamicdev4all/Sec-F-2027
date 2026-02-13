@@ -28,10 +28,10 @@ public class JWTUtil {
 		.withIssuedAt(currentDateTime)
 		.withClaim("otp", OTP)
 		.withSubject(email)
-		.withClaim("userName", name)
-		.withClaim("gender", gender)
+//		.withClaim("userName", name)
+//		.withClaim("gender", gender)
 		.withIssuer("SEC-F")
-		.withClaim("phoneNum", phone)
+//		.withClaim("phoneNum", phone)
 		.sign(a);
 		
 		return token;
@@ -39,20 +39,22 @@ public class JWTUtil {
 	}
 	
 	//this function verifies the JWT token.
-	public static void verifyJWT(String token) {
+	public static String verifyJWT(String token) {
 		try {
 			DecodedJWT decode = JWT.require(a)
 					.build().verify(token);
-			System.out.println("THE TOKEN IS VALID");
-			System.out.println("The token author is " + decode.getIssuer());
-			System.out.println("The email add is " + decode.getSubject());
-			System.out.println("The user name is " + decode.getClaim("userName"));
-			System.out.println("The user gender is " + decode.getClaim("gender"));
-			System.out.println("The user phone is " + decode.getClaim("phoneNum"));
-			System.out.println("The token is created at " + decode.getIssuedAt());
-			System.out.println("The token will expire on " + decode.getExpiresAt());
+			return decode.getSubject();
+//			System.out.println("THE TOKEN IS VALID");
+//			System.out.println("The token author is " + decode.getIssuer());
+//			System.out.println("The email add is " + decode.getSubject());
+//			System.out.println("The user name is " + decode.getClaim("userName"));
+//			System.out.println("The user gender is " + decode.getClaim("gender"));
+//			System.out.println("The user phone is " + decode.getClaim("phoneNum"));
+//			System.out.println("The token is created at " + decode.getIssuedAt());
+//			System.out.println("The token will expire on " + decode.getExpiresAt());
 		} catch (Exception e) {
 			System.out.println("THE TOKEN IS EXPIRED, PLEASE RETRY.");
+			return "some error occured";
 		}
 		
 	}
