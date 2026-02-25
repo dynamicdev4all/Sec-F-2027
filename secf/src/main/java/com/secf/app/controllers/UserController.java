@@ -31,9 +31,18 @@ public class UserController {
 		return "Registration Failed.";
 	}
 	
+	@PostMapping("/user/login/{id}")
+	public String login(@PathVariable int id, @RequestBody Map<String, String> userLogin) {
+		User user = service.loginService(id, userLogin.get("email"), userLogin.get("pass"));
+		if(user == null) {
+			return "No account found or invalid id or password";
+		}
+		return "Login Success";
+	}
+	
 	//Read All
 	@GetMapping("/user/show_all")
-	public ArrayList<User> showAll() {
+	public ArrayList<String> showAll() {
 		return service.showAllService();
 	}
 	

@@ -1,6 +1,18 @@
 package com.secf.app.models;
 
 public class User {
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	int uid;
 	String name;
 	long phone;
@@ -8,8 +20,10 @@ public class User {
 	String dropAdd;
 	String upiId;
 	String bankingName; // in case of refunds
+	String email;
+	String password;
 	
-	public User(int uid, String name, long phone, String pickupAdd, String dropAdd, String upiId, String bankingName) {
+	public User(int uid, String name, long phone, String pickupAdd, String dropAdd, String upiId, String bankingName, String email, String password) {
 		this.uid = uid;
 		this.name = name;
 		this.phone = phone;
@@ -17,6 +31,8 @@ public class User {
 		this.dropAdd = dropAdd;
 		this.upiId = upiId;
 		this.bankingName = bankingName;
+		this.email= email;
+		this.password = password;
 	}
 	public int getUid() {
 		return uid;

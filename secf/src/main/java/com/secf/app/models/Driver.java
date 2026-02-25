@@ -2,6 +2,18 @@ package com.secf.app.models;
 
 public class Driver {
 	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	int uid;
 	String name;
 	long phone;
@@ -13,9 +25,11 @@ public class Driver {
 	String drivingLiscenceNumber;
 	String adharNumber;
 	String panNumber;
+	String email;
+	String password;
 	
 	public Driver(int uid, String name, long phone, String pickupAdd, String dropAdd, String upiId, String bankingName,
-			String vehicleNumber, String drivingLiscenceNumber, String adharNumber, String panNumber) {
+			String vehicleNumber, String drivingLiscenceNumber, String adharNumber, String panNumber, String email, String password) {
 		this.uid = uid;
 		this.name = name;
 		this.phone = phone;
@@ -27,6 +41,8 @@ public class Driver {
 		this.drivingLiscenceNumber = drivingLiscenceNumber;
 		this.adharNumber = adharNumber;
 		this.panNumber = panNumber;
+		this.email = email;
+		this.password = password;
 	}
 	public int getUid() {
 		return uid;

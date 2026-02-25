@@ -21,12 +21,12 @@ public class UserService {
 		return repo.userRegister(newUser);
 	}
 	
-	public void loginService() {
-		
+	public User loginService(int id, String email, String pass) {
+		return repo.userLogin(id, email, pass);
 	}
 	
-	public ArrayList<User> showAllService() {
-		return repo.showAll();
+	public ArrayList<String> showAllService() {
+		return repo.showAllServices();
 	}
 	
 	public User showOneService(int uid) {
