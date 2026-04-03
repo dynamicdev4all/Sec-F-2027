@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
+import com.secf.app.DTOs.ServiceDTO;
 import com.secf.app.models.User;
 
 
@@ -34,15 +35,24 @@ public class UserRepository {
 		return list;
 	}
 	
-	public ArrayList<String> showAllServices() {
+	public ArrayList<ServiceDTO> showAllServices() {
 		service.put("ride_book", "this is used to book rides");
 		service.put("ride_cancel", "this is used to cancel rides");
 		service.put("ride_update", "this is used to update active rides");
 		service.put("ride_scheduling", "this is used to schedule future rides");
 		service.put("ride_abort", "this is used to abort rides");
 		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<ServiceDTO> list2 = new ArrayList<ServiceDTO>();
 		list.addAll(service.keySet());
-		return list;
+		
+		ArrayList<String> key = (ArrayList<String>) service.keySet();
+		ArrayList<String> value = (ArrayList<String>) service.values();
+		for(int i = 0 ; i< service.size();i++) {
+			ServiceDTO sDTO = new ServiceDTO(null, key.get(i), value.get(i));
+			list2.add(sDTO);
+		}
+		
+		return list2;
 	}
 	public User showOne(int uid) {
 		return db.get(uid);

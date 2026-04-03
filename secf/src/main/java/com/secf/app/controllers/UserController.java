@@ -1,19 +1,23 @@
 package com.secf.app.controllers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.secf.app.DTOs.AdminDTO;
 import com.secf.app.models.User;
 import com.secf.app.services.UserService;
 
+@CrossOrigin(origins = "http://localhost:5173/")
 @RestController
 public class UserController {
 //Create (Register), Read, Update and Delete --> CRUD
@@ -32,12 +36,17 @@ public class UserController {
 	}
 	
 	@PostMapping("/user/login/{id}")
-	public String login(@PathVariable int id, @RequestBody Map<String, String> userLogin) {
+	public ResponseEntity<AdminDTO> login(@PathVariable int id, @RequestBody Map<String, String> userLogin) {
 		User user = service.loginService(id, userLogin.get("email"), userLogin.get("pass"));
 		if(user == null) {
-			return "No account found or invalid id or password";
+			AdminDTO aDTO = new AdminDTO( HttpStatus.NOT_FOUND, null , null, false);
+			
+			return ResponseEntity.ok(aDTO);
 		}
-		return "Login Success";
+		AdminDTO aDTO = new AdminDTO( HttpStatus.OK, "dhfksdf", "jdbfhjdsf", true);
+	
+		return ResponseEntity.ok(aDTO);
+//		return "Login Success";
 	}
 	
 	//Read All
