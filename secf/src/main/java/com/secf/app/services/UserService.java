@@ -29,6 +29,10 @@ public class UserService {
 		return repo.showAllServices();
 	}
 	
+	public ArrayList<User> showAllUsers() {
+		return repo.showAll();
+	}
+	
 	public User showOneService(int uid) {
 		return repo.showOne(uid);
 	}
